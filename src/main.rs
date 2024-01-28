@@ -2,6 +2,8 @@
 
 pub mod fraction;
 pub mod term;
+pub mod polynomial;
+pub mod sign;
 
 fn main() {
     let term = term::Term {

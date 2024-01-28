@@ -1,7 +1,7 @@
 # ranalysis
 
 A simple program to perform analysis on any
-real function:
+real function of the form ax² + bx + c:
 
 1. Domain and Symmetry
 2. Intersections with the x and y axes

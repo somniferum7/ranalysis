@@ -49,14 +49,14 @@ impl Fraction {
         self.numerator.to_string() + "/" + &self.denominator.to_string()
     }
 
-    pub fn to_float(&self) -> f64 {
-        (self.numerator as f64) / (self.denominator as f64)
+    pub fn to_float(&self) -> f32 {
+        (self.numerator as f32) / (self.denominator as f32)
     }
 }
 
-pub fn fraction_from_float(n: f64) -> Fraction {
+pub fn fraction_from_float(n: f32) -> Fraction {
     let mut a = n;
-    let mut b: f64 = 1.0;
+    let mut b: f32 = 1.0;
 
     /* Keep multiplying a and b by by 10
      * until a (the numerator) is a whole
