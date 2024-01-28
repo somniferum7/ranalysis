@@ -6,9 +6,9 @@ use crate::sign;
 
 #[derive(Copy, Clone)]
 pub struct Trinominal {
-    a: fraction::Fraction,
-    b: fraction::Fraction,
-    c: fraction::Fraction
+    pub(crate) a: fraction::Fraction,
+    pub(crate) b: fraction::Fraction,
+    pub(crate) c: fraction::Fraction
 }
 
 fn quadratic(a: f32, b: f32, c: f32, sign: sign::Sign) -> f32 {
@@ -27,7 +27,7 @@ impl Trinominal {
     /// A tuple containing the two zero values
     /// of the Trinominal
     /// 
-    fn zero_values(&self) -> (fraction::Fraction, fraction::Fraction) {
+    pub(crate) fn zero_values(&self) -> (fraction::Fraction, fraction::Fraction) {
         /*
          * (-b ± √(b² - 4ac)) / 2a
          */
@@ -41,7 +41,7 @@ impl Trinominal {
         (fraction::fraction_from_float(x1), fraction::fraction_from_float(x2))
     }
 
-    fn compute(&self, x: f32) -> f32 {
+    pub(crate) fn compute(&self, x: f32) -> f32 {
         let ax2     = self.a.to_float() * x * x;
         let bx      = self.b.to_float() * x;
         let c       = self.c.to_float();
@@ -49,9 +49,8 @@ impl Trinominal {
     }
 }
 
-
 impl Trinominal {
-    fn to_string(&self) -> String {
+    pub(crate) fn to_string(&self) -> String {
         self.a.to_string() + " " + &self.b.to_string() + " " + &self.c.to_string()
     }
 }
