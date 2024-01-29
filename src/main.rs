@@ -1,8 +1,8 @@
 #![allow(unused)]
 
-use polynomial::Trinominal;
+use trinomial::Trinomial;
 
-use crate::fraction::fraction_from_float;
+use crate::{fraction::fraction_from_float, polynomial::Polynomial};
 
 
 pub mod fraction;
@@ -10,21 +10,22 @@ pub mod term;
 pub mod polynomial;
 pub mod sign;
 pub mod domain;
+pub mod trinomial;
 
 fn main() {
     // Simple test program
 
     // f(x) = x^2
-    let f: polynomial::Trinominal = polynomial::Trinominal {
+    let f: Trinomial = Trinomial {
         a: fraction_from_float(1.0),
         b: fraction_from_float(0.0),
         c: fraction_from_float(0.0),
     };
 
-    let d = domain::dom(polynomial::Polynomial::Trinominal(f)).to_string();
+    let d = f.domain();
     println!("Domain: {}", d);
 
-    let s = domain::sym(polynomial::Polynomial::Trinominal(f));
+    let s = f.symmetry();
     println!("Reflection symmetry: {}", s.0);
     println!("Rotational symmetry: {}", s.1);
 

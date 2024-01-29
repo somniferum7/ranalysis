@@ -1,5 +1,3 @@
-use std::arch::x86_64::_MM_FLUSH_ZERO_MASK;
-
 use crate::{fraction::ExtendedReal, polynomial::{self, Polynomial}, sign::Sign};
 
 /// ## Mathematical range operator
@@ -20,12 +18,12 @@ pub(crate) enum RangeOperator {
 /// The highest and lowest value in the
 /// domain respectively.
 pub(crate) struct Domain {
-    range_ops: (RangeOperator, RangeOperator),
-    values: (ExtendedReal, ExtendedReal)
+    pub(crate) range_ops: (RangeOperator, RangeOperator),
+    pub(crate) values: (ExtendedReal, ExtendedReal)
 }
 
 impl Domain {
-    pub(crate) fn to_string(&self) -> String {
+    fn to_string(&self) -> String {
 
         // Left range operator
         let l = match self.range_ops.0 {
@@ -48,49 +46,8 @@ impl Domain {
     }
 }
 
-
-pub(crate) fn dom(f: polynomial::Polynomial) -> Domain {
-    match f {
-        polynomial::Polynomial::Trinominal(_) => Domain { // The domain of a trinominal is always (-∞, +∞)
-            range_ops: (RangeOperator::Exclusive, RangeOperator::Exclusive),
-            values: (ExtendedReal::Infinity(Sign::Negative), ExtendedReal::Infinity(Sign::Positive)),
-        },
+impl std::fmt::Display for Domain {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.to_string())
     }
-}
-
-/// ### Arguments
-/// f: The polynomial to be examined
-/// 
-/// ### Returns
-/// (bool, bool) for Reflection Symmetry and  Rotational
-/// Symmetry of 180 degrees respectively
-/// 
-/// ### Note: 
-/// this does not "prove" symmetry, but merely
-/// estimates wether or not a given function
-/// is symmetric or not.
-
-
-
-
-
-pub(crate) fn sym(f: polynomial::Polynomial) -> (bool, bool) {
-
-    let reflection_symmetry = match f {
-        Polynomial::Trinominal(f) => {
-            (0..9999).all(|i|
-                f.compute(i as f32) == f.compute(-i as f32)
-            )
-        },
-    };
-
-    let rotational_symmetry = match f {
-        Polynomial::Trinominal(f) => {
-            (0..9999).all(|i|
-                f.compute(i as f32) == -f.compute(i as f32)
-            )
-        },
-    };
-
-    (reflection_symmetry, rotational_symmetry)
 }
