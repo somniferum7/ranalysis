@@ -1,4 +1,4 @@
-use crate::term;
+use crate::{sign, term};
 
 /// Courtesy of Wikipedia:
 /// Gives the greatest common denominator of the two inputs, unless that's 2³¹.
@@ -39,22 +39,42 @@ fn gcd(u: i32, v: i32) -> i32 {
 }
 
 #[derive(Copy, Clone)]
-pub struct Fraction {
+pub(crate) struct Fraction {
     numerator: i32,
     denominator: i32
 }
 
+pub(crate) enum ExtendedReal {
+    RealNumber(Fraction),
+    Infinity(sign::Sign)
+}
+
+impl ExtendedReal {
+    pub(crate) fn to_string(&self) -> String {
+        match self {
+            ExtendedReal::RealNumber(n) => n.to_string(),
+            ExtendedReal::Infinity(inf) => inf.to_string().to_owned() + "∞",
+        }
+    }
+}
+
 impl Fraction {
-    pub fn to_string(&self) -> String {
-        self.numerator.to_string() + "/" + &self.denominator.to_string()
+    pub(crate) fn to_string(&self) -> String {
+        if self.numerator == 0 { // 0/1
+            0.to_string()
+        } else if self.numerator == self.denominator { // 1/1
+            self.numerator.to_string()
+        } else {
+            self.numerator.to_string() + "/" + &self.denominator.to_string()
+        }
     }
 
-    pub fn to_float(&self) -> f32 {
+    pub(crate) fn to_float(&self) -> f32 {
         (self.numerator as f32) / (self.denominator as f32)
     }
 }
 
-pub fn fraction_from_float(n: f32) -> Fraction {
+pub(crate) fn fraction_from_float(n: f32) -> Fraction {
     let mut a = n;
     let mut b: f32 = 1.0;
 

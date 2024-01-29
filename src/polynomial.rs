@@ -5,6 +5,11 @@ use crate::fraction;
 use crate::sign;
 
 #[derive(Copy, Clone)]
+pub(crate) enum Polynomial {
+    Trinominal(Trinominal)
+}
+
+#[derive(Copy, Clone)]
 pub struct Trinominal {
     pub(crate) a: fraction::Fraction,
     pub(crate) b: fraction::Fraction,

@@ -1,25 +1,33 @@
 #![allow(unused)]
 
+use polynomial::Trinominal;
+
 use crate::fraction::fraction_from_float;
+
 
 pub mod fraction;
 pub mod term;
 pub mod polynomial;
 pub mod sign;
+pub mod domain;
 
 fn main() {
-    let term = term::Term {
-        variable: 'x',
-        coefficient: fraction::fraction_from_float(0.5),
-        exponent: 2,
-    };
+    // Simple test program
 
-    let f = polynomial::Trinominal {
+    // f(x) = x^2
+    let f: polynomial::Trinominal = polynomial::Trinominal {
         a: fraction_from_float(1.0),
-        b: fraction_from_float(5.0),
-        c: fraction_from_float(6.0),
+        b: fraction_from_float(0.0),
+        c: fraction_from_float(0.0),
     };
 
-    println!("{}", term.to_string());
-    println!("{}, {}", f.zero_values().0.to_string(), f.zero_values().1.to_string());
+    let d = domain::dom(polynomial::Polynomial::Trinominal(f)).to_string();
+    println!("Domain: {}", d);
+
+    let s = domain::sym(polynomial::Polynomial::Trinominal(f));
+    println!("Reflection symmetry: {}", s.0);
+    println!("Rotational symmetry: {}", s.1);
+
+    let z = f.zero_values();
+    println!("Zero values: {{{}, {}}}", z.0.to_string(), z.1.to_string());
 }
